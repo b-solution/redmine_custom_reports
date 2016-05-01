@@ -1,0 +1,12 @@
+.custom-report {
+  width: 100%;
+}
+
+.custom-report-chart {
+  float: left;
+}
+
+.custom-report-chart svg {
+  height: 500px;
+  overflow: visible;
+}
