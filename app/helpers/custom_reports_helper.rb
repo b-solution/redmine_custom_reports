@@ -4,17 +4,17 @@ module CustomReportsHelper
   end
 
   def operators_for_select(filter_type)
-    Query.operators_by_filter_type[filter_type].collect {|o| [l(Query.operators[o]), o]}
+    (Query.operators_by_filter_type[filter_type] || []).collect {|o| [l(Query.operators[o]), o]}
   end
 
   def query_options_for_select(query)
-    options_for_select([['', '']]) if query.available_filters.nil?
-    options = query.available_filters.collect do |field, options|
+    return options_for_select([['', '']]) if query.available_filters.nil?
+    options = query.available_filters do |field, options|
       unless query.has_filter?(field)
         [options[:name] || l(('field_' + field.to_s.gsub(/_id$/, '')).to_sym), field]
       end
     end
-    options = [['', '']] + options.compact
+    options = options.compact
     options_for_select(options)
   end
 
